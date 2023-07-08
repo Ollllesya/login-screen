@@ -33,7 +33,7 @@ function UserScreen() {
         email: userEmail,
         phone: userNumber,
       };
-      setUsers([...users, newUser, {key: Math.random().toString()}]);
+      setUsers([...users, newUser]);
       cleanOutFields();
     }
   }

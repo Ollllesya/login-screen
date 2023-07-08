@@ -1,9 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView} from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TextInput, Button} from 'react-native';
 
 function UserScreen() {
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
+  const [userName, setUserName] = useState('')
+  const [userEmail, setUserEmail] = useState('')
+  const [userNumber, setUserNumber] = useState('')
+
+  function userNameInputHandler(enteredName){
+    setUserName(enteredName)
+  }
+
+  function userEmailInputHandler(enteredEmail){
+    setUserEmail(enteredEmail)
+  }
+
+  function userNumberInputHandler(enteredNumber){
+    setUserNumber(enteredNumber)
+  }
+
+  function cleanOutFields(){
+    setUserName('')
+    setUserEmail('')
+    setUserNumber('')
+  }
+
+  function handleAddGoal() {
+    if (userName && userEmail && userNumber) {
+      const newUser = {
+        name: userName,
+        email: userEmail,
+        phone: userNumber,
+      };
+      setUsers([...users, newUser, {key: Math.random().toString()}]);
+      cleanOutFields();
+    }
+  }
 
   const url = "https://jsonplaceholder.typicode.com/users"
 
@@ -17,6 +50,38 @@ function UserScreen() {
   
   return (
     <ScrollView style={styles.container}>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Enter Name"
+          onChangeText={userNameInputHandler}
+          value={userName}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Enter email"
+          onChangeText={userEmailInputHandler}
+          value={userEmail}
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Enter number"
+          onChangeText={userNumberInputHandler}
+          value={userNumber}
+        />
+      </View>
+      <View style={styles.buttonContainer}>
+          <View style={styles.button}>
+            <Button title="Add user" color='#b180f0' onPress={handleAddGoal} />
+          </View>
+          <View style={styles.button}>
+            <Button title="Cancel" color='#f31282' onPress={cleanOutFields}/>
+          </View>
+        </View>
       {
         loading ? (<Text>Loading...</Text>) : (
           users.map((user) => {
@@ -58,7 +123,27 @@ const styles = StyleSheet.create({
   phone: {
     fontSize: 16,
   },
+  inputContainer: {
+    backgroundColor: '#e4d0ff',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    marginBottom: 16,
+  },
+  textInput: {
+    fontSize: 16,
+    color: '#333',
+  },
+  buttonContainer:{
+    marginTop: 16,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  button: {
+    width: 100,
+    marginHorizontal: 8,
+  }
 });
-
-
 export default UserScreen;

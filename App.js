@@ -11,7 +11,7 @@ export default function App() {
   return (
     <NavigationContainer>
     <AppStackNavigator.Navigator>
-      <AppStackNavigator.Screen name="SignInScreen" component={SignInScreen} />
+      <AppStackNavigator.Screen name="SignInScreen" component={SignInScreen} options={{ headerShown: false }}/>
       <AppStackNavigator.Screen name="UserScreen" component={UserScreen} />
     </AppStackNavigator.Navigator>
     </NavigationContainer>
